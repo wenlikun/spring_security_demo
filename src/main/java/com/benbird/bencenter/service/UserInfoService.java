@@ -11,14 +11,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  */
 public interface UserInfoService extends UserDetailsService {
 
+    /**
+     * 查找用户信息
+     * @param userName 用户名
+     * @return  用户信息
+     */
     SysUserDO findByUserName(String userName);
 
     /**
      * 登录功能
      * @param username 用户名
      * @param password 密码
-     * @return 生成的JWT的token
+     * @return  用户信息
      */
-    String login(String username,String password);
+    SysUserDO login(String username,String password);
 
 }

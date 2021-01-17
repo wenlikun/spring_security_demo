@@ -1,6 +1,8 @@
 package com.benbird.bencenter.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.benbird.bencenter.exception.BenbirdErrorCode;
+import com.benbird.bencenter.exception.BenbirdException;
 import com.benbird.bencenter.mapper.SysMenuMapper;
 import com.benbird.bencenter.mapper.SysUserMapper;
 import com.benbird.bencenter.models.DO.SysUserDO;
@@ -39,10 +41,16 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     private SysMenuMapper sysMenuMapper;
 
+    /**
+     * 查找用户信息
+     * @param userName 用户名
+     * @return  用户信息
+     */
     @Override
     public SysUserDO findByUserName(String userName) {
         log.info("开始查询用户信息{}",userName);
         QueryWrapper<SysUserDO> query = BaseQuery.query();
+        query.eq("USER_NAME",userName);
         SysUserDO sysUserDO = sysUserMapper.selectOne(query);
         if(null != sysUserDO){
             sysUserDO.setSysMenuDOList(sysMenuMapper.selectUserMenu(sysUserDO.getId()));
@@ -51,6 +59,12 @@ public class UserInfoServiceImpl implements UserInfoService {
         return null;
     }
 
+    /**
+     * springSecurity的认证方法
+     * @param username  用户名
+     * @return  UserDetails
+     * @throws UsernameNotFoundException UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUserDO userInfo = findByUserName(username);
@@ -63,24 +77,43 @@ public class UserInfoServiceImpl implements UserInfoService {
         return null;
     }
 
+    /**
+     * 登录功能
+     * @param username 用户名
+     * @param password 密码
+     * @return  用户信息
+     */
     @Override
-    public String login(String username, String password) {
-        String token = null;
-        //密码需要客户端加密后传递
+    public SysUserDO login(String username, String password) {
+        SysUserDO sysUserDO;
+        UserDetails userDetails = loadUserByUsername(username);
+        checkUserInfo(userDetails,password);
         try {
-            UserDetails userDetails = loadUserByUsername(username);
-            if(!new BCryptPasswordEncoder().matches(password,userDetails.getPassword())){
-                throw new RuntimeException("密码不正确");
-            }
-            if(!userDetails.isEnabled()){
-                throw new RuntimeException("帐号已被禁用");
-            }
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
+                    null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            token = JwtTokenUtil.generateToken(userDetails);
+            String token = JwtTokenUtil.generateToken(userDetails);
+            sysUserDO = findByUserName(username);
+            sysUserDO.setToken(token);
         } catch (AuthenticationException e) {
             log.info("登录异常:{}"+ e.getMessage());
+            throw new BenbirdException(BenbirdErrorCode.AUTHENTICATION_FAILED);
         }
-        return token;
+        return sysUserDO;
     }
+
+    /**
+     * 检查用户信息
+     * @param userDetails 用户明细
+     * @param password    登录密码
+     */
+    private void checkUserInfo(UserDetails userDetails,String password){
+        if(null == userDetails || !new BCryptPasswordEncoder().matches(password,userDetails.getPassword())){
+            throw new BenbirdException(BenbirdErrorCode.USER_INFO_IS_ERROR);
+        }
+        if(!userDetails.isEnabled()){
+            throw new BenbirdException(BenbirdErrorCode.ACCOUNT_IS_DISABLED);
+        }
+    }
+
 }

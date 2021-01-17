@@ -1,5 +1,6 @@
 package com.benbird.bencenter.common;
 
+import com.benbird.bencenter.dto.req.LoginReqDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class Result<T> {
      * 数据封装
      */
     private T data;
+
 
     /**
      * 未授权返回结果
@@ -64,5 +66,12 @@ public class Result<T> {
      */
     public static <T> Result<T> success(T data) {
         return new Result<T>(200, "操作成功", data);
+    }
+
+    /**
+     * 未授权返回结果
+     */
+    public static <T> Result<T> serviceError(String message,T data) {
+        return new Result<T>(500, message, data);
     }
 }

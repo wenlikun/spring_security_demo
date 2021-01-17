@@ -25,4 +25,14 @@ public class BenBirdConstant {
      */
     public static final String UN_USABLE = "UN_USABLE";
 
+    /**
+     * 日志ID
+     */
+    public static final String TRACE_LOG_ID = "TRACE_LOG_ID";
+
+    /**
+     * token 头信息
+     */
+    public static final String BEARER = "Bearer ";
+
 }

@@ -32,8 +32,10 @@ public class SysUserDO extends BaseDO {
     private String userEmail;
     private String gender;
     private String department;
-    private Date lastLoinTime;
+    private Date lastLoginTime;
     @TableField(exist = false)
     private List<SysMenuDO> sysMenuDOList;
+    @TableField(exist = false)
+    private String token;
 
 }
