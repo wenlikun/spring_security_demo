@@ -70,7 +70,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         SysUserDO userInfo = findByUserName(username);
         if(null != userInfo) {
             List<GrantedAuthority> authorities = userInfo.getSysMenuDOList().stream().
-                    map(sysMenuDO -> new SimpleGrantedAuthority(sysMenuDO.getMenuUrl())).
+                    map(sysMenuDO -> new SimpleGrantedAuthority(sysMenuDO.getPath())).
                     collect(Collectors.toList());
             return new User(userInfo.getUserName(),userInfo.getPassword(),authorities);
         }

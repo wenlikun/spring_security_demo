@@ -58,14 +58,14 @@
     </sql>
 
     <sql id="Base_Menu_List">
-        SM.ID id,
-        SM.MENU_NAME menuName,
-        SM.MENU_URL menuUrl,
-        SM.MENU_TYPE menuType,
-        SM.PARENT_MENU_ID parentMenuId,
-        SM.STATUS status,
-        SM.HIDDEN hidden,
-        SM.META meta
+        SM.ID ID,
+        SM.MENU_NAME MENU_NAME,
+        SM.MENU_URL MENU_URL,
+        SM.MENU_TYPE MENU_TYPE,
+        SM.PARENT_MENU_ID PARENT_MENU_ID,
+        SM.STATUS STATUS,
+        SM.HIDDEN HIDDEN,
+        SM.META META
     </sql>
 
     <!-- 查询用户顶层路径 -->
