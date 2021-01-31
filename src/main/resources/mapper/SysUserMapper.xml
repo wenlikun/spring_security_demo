@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.benbird.bencenter.mapper.SysUserMapper">
+    <!-- 所有菜单的返回结果 -->
+    <resultMap type="com.benbird.bencenter.models.DO.SysUserDO" id="BaseResultMap">
+        <id     column="ID"                 property="id"/>
+        <result column="USER_NAME"          property="userName"/>
+        <result column="PASSWORD"           property="password"/>
+        <result column="AVATAR"             property="avatar"/>
+        <result column="NICK_NAME"          property="nickName"/>
+        <result column="USER_PHONE"         property="userPhone"/>
+        <result column="USER_EMAIL"         property="userEmail"/>
+        <result column="GENDER"             property="gender"/>
+        <result column="DEPARTMENT"         property="department"/>
+        <result column="LAST_LOGIN_TIME"    property="lastLoginTime"/>
+        <result column="CREATED_AT"         property="createdAt"/>
+        <result column="CREATED_BY"         property="createdBy"/>
+        <result column="UPDATED_AT"         property="updatedAt"/>
+        <result column="UPDATED_BY"         property="updatedBy"/>
+        <result column="USABLE_FLAG"        property="updatedBy"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,
+        USER_NAME,
+        PASSWORD,
+        AVATAR,
+        NICK_NAME,
+        USER_PHONE,
+        USER_EMAIL,
+        GENDER,
+        DEPARTMENT,
+        LAST_LOGIN_TIME,
+        CREATED_AT,
+        CREATED_BY,
+        UPDATED_AT,
+        UPDATED_BY,
+        USABLE_FLAG
+    </sql>
+
+    <select id="queryCount" resultType="java.lang.Integer">
+        /**SysUserMapper.queryCount**/
+        SELECT
+            COUNT(0)
+        FROM
+            SYS_USER
+        WHERE USABLE_FLAG = 'USABLE'
+        <if test="sysUserDO.userName != null and sysUserDO.userName != '' ">
+            AND USER_NAME = #{sysUserDO.userName}
+        </if>
+        <if test="sysUserDO.userPhone != null and sysUserDO.userPhone != '' ">
+            AND USER_PHONE = #{sysUserDO.userPhone}
+        </if>
+    </select>
+
+    <select id="queryPageList" resultMap="BaseResultMap">
+        /**SysUserMapper.queryPageList**/
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM
+        SYS_USER
+        WHERE USABLE_FLAG = 'USABLE'
+        <if test="sysUserDO.userName != null and sysUserDO.userName != '' ">
+            AND USER_NAME = #{sysUserDO.userName}
+        </if>
+        <if test="sysUserDO.userPhone != null and sysUserDO.userPhone != '' ">
+            AND USER_PHONE = #{sysUserDO.userPhone}
+        </if>
+        LIMIT #{startRow},#{pageSize}
+    </select>
+
+    <update id="modifyToUnUseById">
+        /**SysUserMapper.modifyToUnUseById**/
+        UPDATE SYS_USER
+        <set>
+            USABLE_FLAG = 'UN_USABLE',
+            UPDATED_AT = NOW(),
+            UPDATED_BY = #{updatedBy}
+        </set>
+        WHERE USABLE_FLAG = 'USABLE'
+        AND ID = #{id}
+    </update>
+</mapper>

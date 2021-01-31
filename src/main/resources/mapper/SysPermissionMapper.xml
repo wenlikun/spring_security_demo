@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.benbird.bencenter.mapper.SysPermissionMapper">
+
+    <sql id="Base_Column_List">
+        USER_ID,
+        MENU_ID,
+        USABLE_FLAG,
+        CREATED_AT,
+        CREATED_BY,
+        UPDATED_AT,
+        UPDATED_BY
+    </sql>
+
+    <update id="updateUpUnUse">
+        UPDATE SYS_PERMISSION
+        <set>
+            USABLE_FLAG = 'UN_USABLE',
+            UPDATED_AT = NOW(),
+            UPDATED_BY = #{updatedBy}
+        </set>
+        WHERE USABLE_FLAG = 'USABLE'
+        AND USER_ID = #{userId}
+    </update>
+
+    <insert id="insertPermission">
+        INSERT SYS_PERMISSION
+            (<include refid="Base_Column_List"/>)
+        VALUES
+        <foreach collection="menuList" separator="," item="menuId">
+        (
+            #{userId},
+            #{menuId},
+            'USABLE',
+            NOW(),
+            #{updatedBy},
+            NOW(),
+            #{updatedBy}
+        )
+        </foreach>
+    </insert>
+
+
+</mapper>

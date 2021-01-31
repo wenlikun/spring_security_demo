@@ -1,5 +1,7 @@
 package com.benbird.bencenter.models;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,6 +21,7 @@ public class BaseDO implements Serializable {
     /**
      * 数据库主键
      */
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**

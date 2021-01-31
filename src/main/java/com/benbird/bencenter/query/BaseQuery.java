@@ -21,6 +21,7 @@ public class BaseQuery<T> {
     public static <T> QueryWrapper<T> query(){
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("USABLE_FLAG" , BenBirdConstant.USABLE);
+        queryWrapper.orderByDesc("ID");
         return queryWrapper;
     }
 

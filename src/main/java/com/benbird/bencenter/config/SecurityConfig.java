@@ -64,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 // 不需要保护的资源路径允许访问
-                .antMatchers("/login").permitAll()
+                .antMatchers("/user/login").permitAll()
                 // 允许跨域请求的OPTIONS请求
                 .antMatchers(HttpMethod.OPTIONS)
                 .permitAll()

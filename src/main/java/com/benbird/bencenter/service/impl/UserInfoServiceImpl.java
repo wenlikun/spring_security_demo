@@ -1,9 +1,11 @@
 package com.benbird.bencenter.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.benbird.bencenter.common.ParamValidate;
 import com.benbird.bencenter.exception.BenbirdErrorCode;
 import com.benbird.bencenter.exception.BenbirdException;
 import com.benbird.bencenter.mapper.SysMenuMapper;
+import com.benbird.bencenter.mapper.SysPermissionMapper;
 import com.benbird.bencenter.mapper.SysUserMapper;
 import com.benbird.bencenter.models.DO.SysUserDO;
 import com.benbird.bencenter.query.BaseQuery;
@@ -21,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +43,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Autowired
     private SysMenuMapper sysMenuMapper;
+
+    @Autowired
+    private SysPermissionMapper sysPermissionMapper;
 
     /**
      * 查找用户信息
@@ -100,6 +106,66 @@ public class UserInfoServiceImpl implements UserInfoService {
             throw new BenbirdException(BenbirdErrorCode.AUTHENTICATION_FAILED);
         }
         return sysUserDO;
+    }
+
+    /**
+     * 查询总记录数
+     * @param sysUserDO DO
+     * @return  Integer
+     */
+    @Override
+    public Integer queryCount(SysUserDO sysUserDO) {
+        return sysUserMapper.queryCount(sysUserDO);
+    }
+
+    /**
+     * 分页查询结果
+     * @param sysUserDO DO
+     * @param startRow  开始行
+     * @param pageSize  页容量
+     * @return List
+     */
+    @Override
+    public List<SysUserDO> queryPageList(SysUserDO sysUserDO, Integer startRow, Integer pageSize) {
+        return sysUserMapper.queryPageList(sysUserDO,startRow,pageSize);
+    }
+
+    /**
+     * 根据用户ID查询用户信息
+     * @param id ID
+     * @return   DO
+     */
+    @Override
+    public SysUserDO queryById(Integer id) {
+        SysUserDO sysUserDO = sysUserMapper.selectById(id);
+        log.info("根据用户ID查询用户信息响应结果为:{}",sysUserDO);
+        ParamValidate.validateUsable(sysUserDO);
+        return sysUserDO;
+    }
+
+    /**
+     * 根据ID更新为不可用状态
+     * @param id ID
+     * @param updatedBy 更新人
+     * @return   Integer
+     */
+    @Override
+    public Integer modifyToUnUseById(Integer id , String updatedBy) {
+        return sysUserMapper.modifyToUnUseById(id, updatedBy);
+    }
+
+    /**
+     * 分配用户菜单权限
+     * @param userId        用户ID
+     * @param menuList      菜单集合
+     * @param updatedBy     更新人
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void confirmUserMenu(Integer userId, List<Integer> menuList, String updatedBy) {
+        Integer updateCount = sysPermissionMapper.updateUpUnUse(userId, updatedBy);
+        Integer insertCount = sysPermissionMapper.insertPermission(userId, updatedBy, menuList);
+        log.info("分配用户菜单权限,更新条数为{},新增条数为{}",updateCount,insertCount);
     }
 
     /**

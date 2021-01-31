@@ -35,4 +35,14 @@ public class BenBirdConstant {
      */
     public static final String BEARER = "Bearer ";
 
+    /**
+     * 常量
+     */
+    public static final String TRUE = "TRUE";
+
+    /**
+     * 系统名称
+     */
+    public static final String SYSTEM_NAME = "BEN-BIRD";
+
 }

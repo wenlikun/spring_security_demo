@@ -10,7 +10,8 @@
         <result column="PARENT_MENU_ID" property="parentMenuId"/>
         <result column="STATUS"         property="status"/>
         <result column="HIDDEN"         property="hidden"/>
-        <result column="META"           property="meta"/>
+        <result column="META"           property="meta" javaType="com.benbird.bencenter.models.Meta"
+                typeHandler="com.benbird.bencenter.handler.JsonTypeHandler"/>
         <result column="CREATED_AT"     property="createdAt"/>
         <result column="CREATED_BY"     property="createdBy"/>
         <result column="UPDATED_AT"     property="updatedAt"/>
@@ -30,7 +31,8 @@
         <result column="PARENT_MENU_ID" property="parentMenuId"/>
         <result column="STATUS"         property="status"/>
         <result column="HIDDEN"         property="hidden"/>
-        <result column="META"           property="meta"/>
+        <result column="META"           property="meta" javaType="com.benbird.bencenter.models.Meta"
+                typeHandler="com.benbird.bencenter.handler.JsonTypeHandler"/>
         <result column="CREATED_AT"     property="createdAt"/>
         <result column="CREATED_BY"     property="createdBy"/>
         <result column="UPDATED_AT"     property="updatedAt"/>
@@ -70,6 +72,7 @@
 
     <!-- 查询用户顶层路径 -->
     <select id="selectUserMenu" resultMap="UserResultMap">
+        /**SysMenuMapper.selectUserMenu**/
         SELECT
             <include refid="Base_Menu_List"/>,SP.USER_ID userId
         FROM
@@ -84,6 +87,7 @@
 
     <!-- 查询子菜单权限 -->
     <select id="selectUserChildrenMenu" resultMap="UserResultMap">
+        /**SysMenuMapper.selectUserChildrenMenu**/
         SELECT
         <include refid="Base_Menu_List"/>,SP.USER_ID userId
         FROM
@@ -97,6 +101,7 @@
     </select>
 
     <select id="selectAllMenu" resultMap="BaseResultMap">
+        /**SysMenuMapper.selectAllMenu**/
         SELECT
         <include refid="Base_Column_List"/>
         FROM
@@ -106,6 +111,7 @@
     </select>
 
     <select id="selectChildrenMenu" resultMap="BaseResultMap">
+        /**SysMenuMapper.selectChildrenMenu**/
         SELECT
         <include refid="Base_Column_List"/>
         FROM
@@ -114,5 +120,14 @@
         AND PARENT_MENU_ID =#{id}
     </select>
 
+    <select id="queryById" resultType="com.benbird.bencenter.models.DO.SysMenuDO">
+        /**SysMenuMapper.queryById**/
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        SYS_MENU
+        WHERE USABLE_FLAG = 'USABLE'
+        AND ID = #{id}
+    </select>
 
 </mapper>

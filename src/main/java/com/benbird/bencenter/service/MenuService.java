@@ -1,6 +1,5 @@
-package com.benbird.bencenter.mapper;
+package com.benbird.bencenter.service;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.benbird.bencenter.models.DO.SysMenuDO;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,11 +8,11 @@ import java.util.List;
 /**
  * 项目名: bencenter
  * 创建者: Admin
- * 创建时间: 2021/1/17
- * 描述: 系统路径配置
+ * 创建时间: 2021/1/29
+ * 描述: 菜单服务
  * @author Admin
  */
-public interface SysMenuMapper extends BaseMapper<SysMenuDO> {
+public interface MenuService {
 
     /**
      * 查询个人拥有的权限
@@ -33,5 +32,6 @@ public interface SysMenuMapper extends BaseMapper<SysMenuDO> {
      * @param id ID
      * @return   DO
      */
-    SysMenuDO queryById(@Param("id") Integer id);
+    SysMenuDO queryById(Integer id);
+
 }

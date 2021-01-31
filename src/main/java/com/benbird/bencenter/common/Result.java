@@ -1,6 +1,5 @@
 package com.benbird.bencenter.common;
 
-import com.benbird.bencenter.dto.req.LoginReqDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

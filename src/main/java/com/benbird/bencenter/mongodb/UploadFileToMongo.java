@@ -2,7 +2,6 @@ package com.benbird.bencenter.mongodb;
 
 import com.mongodb.client.gridfs.model.GridFSFile;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -18,8 +17,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 
 /**

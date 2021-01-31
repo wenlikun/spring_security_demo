@@ -50,7 +50,7 @@ public class ControllerAspect {
         // 请求的URI
         String requestURI = attributes.getRequest().getRequestURI();
         // 白名单权限
-        if("/login".equals(requestURI)){
+        if("/user/login".equals(requestURI)){
             return proceedingJoinPoint.proceed();
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

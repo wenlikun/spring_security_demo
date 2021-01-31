@@ -3,6 +3,7 @@ package com.benbird.bencenter.models.DO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.benbird.bencenter.models.BaseDO;
+import com.benbird.bencenter.models.Meta;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -35,7 +36,8 @@ public class SysMenuDO extends BaseDO {
     private Integer parentMenuId;
     private String status;
     private String hidden;
-    private String meta;
+    private Meta meta;
     private List<SysMenuDO> children;
-
+    @TableField(exist = false)
+    private String label;
 }

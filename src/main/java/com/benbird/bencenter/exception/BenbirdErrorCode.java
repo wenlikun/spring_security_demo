@@ -35,9 +35,14 @@ public enum BenbirdErrorCode {
      * 登录相关的错误码
      */
     USER_INFO_IS_ERROR("USER_INFO_IS_ERROR","用户名或密码不正确"),
+    USER_NOT_EXISTS("USER_IS_NOT_EXISTS","用户不存在"),
+    MENU_NOT_EXISTS("MENU_NOT_EXISTS","菜单不存在"),
     ACCOUNT_IS_DISABLED("ACCOUNT_IS_DISABLED","账号被禁用"),
     AUTHENTICATION_FAILED("AUTHENTICATION_FAILED","认证失败"),
-
+    QUERY_EMPTY("QUERY_EMPTY", "查询结果为空"),
+    DATA_CONVERTER_ERROR("DATA_CONVERTER_ERROR", "数据对象转换异常"),
+    TARGET_LIST_IS_NULL("TARGET_LIST_IS_NULL","目标集合为空"),
+    NOT_DELETE_LOGIN_USER("NOT_DELETE_LOGIN_USER","不能删除当前登录用户"),
 
     ;
 
