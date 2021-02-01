@@ -8,6 +8,7 @@ import com.benbird.bencenter.mapper.GoddessMapper;
 import com.benbird.bencenter.models.DO.GoddessDO;
 import com.benbird.bencenter.query.BaseQuery;
 import com.benbird.bencenter.service.GoddessService;
+import com.benbird.bencenter.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,8 @@ public class GoddessServiceImpl extends ServiceImpl<GoddessMapper , GoddessDO> i
      */
     @Override
     public Integer addGoddess(GoddessDO goddessDO) {
+        goddessDO.setCreatedAt(DateUtil.getCurrentDate());
+        goddessDO.setCreatedBy(goddessDO.getUpdatedBy());
         int count = goddessMapper.insert(goddessDO);
         log.info("人间烟火新增DO数据,请求DO{},响应结果{}",goddessDO,count);
         return count;
@@ -81,5 +84,16 @@ public class GoddessServiceImpl extends ServiceImpl<GoddessMapper , GoddessDO> i
         log.info("人间烟火根据ID查询数据:{},{}",id,goddessDO);
         ParamValidate.validateUsable(goddessDO);
         return goddessDO;
+    }
+
+    /**
+     * 根据ID删除数据
+     * @param id            主键
+     * @param updatedBy     更新人
+     * @return              Integer
+     */
+    @Override
+    public Integer modifyToUnUseById(Integer id, String updatedBy) {
+        return goddessMapper.modifyToUnUseById(id, updatedBy);
     }
 }

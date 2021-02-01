@@ -28,6 +28,9 @@ public class Result<T> {
      */
     private T data;
 
+    public Result(T data){
+        success(data);
+    }
 
     /**
      * 未授权返回结果

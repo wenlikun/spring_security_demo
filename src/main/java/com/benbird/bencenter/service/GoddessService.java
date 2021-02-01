@@ -42,4 +42,12 @@ public interface GoddessService extends IService<GoddessDO> {
      * @return              DO
      */
     GoddessDO queryById(Integer id);
+
+    /**
+     * 根据ID删除数据
+     * @param id            主键
+     * @param updatedBy     更新人
+     * @return              Integer
+     */
+    Integer modifyToUnUseById(Integer id , String updatedBy);
 }

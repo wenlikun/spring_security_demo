@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.benbird.bencenter.mapper.GoddessMapper">
+
+    <update id="modifyToUnUseById">
+        /**GoddessMapper.modifyToUnUseById**/
+        UPDATE GODDESS
+        <set>
+            USABLE_FLAG = 'UN_USABLE',
+            UPDATED_AT = NOW(),
+            UPDATED_BY = #{updatedBy}
+        </set>
+        WHERE USABLE_FLAG = 'USABLE'
+        AND ID = #{id}
+    </update>
+
+</mapper>

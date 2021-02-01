@@ -11,4 +11,13 @@ import com.benbird.bencenter.models.DO.GoddessDO;
  * @author Admin
  */
 public interface GoddessMapper extends BaseMapper<GoddessDO> {
+
+    /**
+     * 根据ID删除数据
+     * @param id            主键
+     * @param updatedBy     更新人
+     * @return              Integer
+     */
+    Integer modifyToUnUseById(Integer id , String updatedBy);
+
 }

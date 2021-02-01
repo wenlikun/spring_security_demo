@@ -1,16 +1,16 @@
 package com.benbird.bencenter.common;
 
-import com.benbird.bencenter.dto.req.UserMenuReqDTO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.benbird.bencenter.exception.BenbirdErrorCode;
 import com.benbird.bencenter.exception.BenbirdException;
 import com.benbird.bencenter.models.BaseDO;
-import com.benbird.bencenter.models.DO.SysMenuDO;
 import org.springframework.util.CollectionUtils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -23,12 +23,24 @@ import java.util.Set;
  */
 public class ParamValidate {
 
+    private ParamValidate(){}
+
     /**
      * 校验分页结果
      * @param count 总数量
      */
     public static void validatePageCount(Integer count){
         if(0 == count){
+            throw new BenbirdException(BenbirdErrorCode.QUERY_EMPTY);
+        }
+    }
+
+    /**
+     * 校验分页结果
+     * @param page 结果信息
+     */
+    public static void validatePageCount(Page<?> page){
+        if(0 == page.getTotal()){
             throw new BenbirdException(BenbirdErrorCode.QUERY_EMPTY);
         }
     }
@@ -43,18 +55,6 @@ public class ParamValidate {
         }
     }
 
-
-    /**
-     * 校验集合是否为空
-     * @param lists 集合列表
-     */
-    public static void validateList(List<?>... lists){
-        for(List<?> list:lists){
-            if(CollectionUtils.isEmpty(list)){
-                throw new BenbirdException(BenbirdErrorCode.TARGET_LIST_IS_NULL);
-            }
-        }
-    }
 
     /**
      * 校验String是否为空
@@ -80,7 +80,7 @@ public class ParamValidate {
 
         Validator validator = FACTORY.getValidator();
         Set<ConstraintViolation<T>> violations = validator.validate(validateModel);
-        if (violations.size() == 0) {
+        if (CollectionUtils.isEmpty(violations)) {
             return;
         }
         throw new BenbirdException(BenbirdErrorCode.PARAMETER_VALID_NOT_PASS, violations.iterator().next().getMessage());
@@ -93,6 +93,17 @@ public class ParamValidate {
     public static void validateUsable(BaseDO baseDO){
         if(null == baseDO || BenBirdConstant.UN_USABLE.equals(baseDO.getUsableFlag())){
             throw new BenbirdException(BenbirdErrorCode.MENU_NOT_EXISTS);
+        }
+    }
+
+    /**
+     * 验证日期范围
+     * @param startDate     开始日期
+     * @param endDate       结束日期
+     */
+    public static void validateDate(Date startDate , Date endDate){
+        if(startDate.getTime() > endDate.getTime()){
+            throw new BenbirdException(BenbirdErrorCode.START_CANT_BEFORE_END_DATE);
         }
     }
 

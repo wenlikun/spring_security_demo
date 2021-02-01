@@ -80,11 +80,9 @@ public class SysMenuMapperTest {
     @Test
     public void query(){
         List<SysMenuDO> sysMenuMappers = sysMenuMapper.selectUserMenu(3);
-
-        //List<SysMenuDO> sysMenuMappers1 = sysMenuMapper.selectAllMenu();
-        List<SysMenuDO> targetList = Lists.newArrayList();
-        checkMenu(sysMenuMappers,targetList);
-        System.out.println(targetList);
+        System.out.println(sysMenuMappers);
+        List<SysMenuDO> sysMenuMappers1 = sysMenuMapper.selectAllMenu();
+        System.out.println(sysMenuMappers1);
     }
 
     public static void checkMenu(List<SysMenuDO> sourceList,List<SysMenuDO> targetList){
