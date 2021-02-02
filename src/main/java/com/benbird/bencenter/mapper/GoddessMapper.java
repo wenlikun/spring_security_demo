@@ -2,6 +2,7 @@ package com.benbird.bencenter.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.benbird.bencenter.models.DO.GoddessDO;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 项目名: bencenter
@@ -20,4 +21,11 @@ public interface GoddessMapper extends BaseMapper<GoddessDO> {
      */
     Integer modifyToUnUseById(Integer id , String updatedBy);
 
+
+    /**
+     * 根据月份查询记录是否存在
+     * @param month     月份
+     * @return          Integer
+     */
+    Integer queryByMonth(@Param("month") String month);
 }

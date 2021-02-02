@@ -13,5 +13,12 @@
         WHERE USABLE_FLAG = 'USABLE'
         AND ID = #{id}
     </update>
+    
+    <select id="queryByMonth" resultType="java.lang.Integer">
+        /**GoddessMapper.queryByMonth**/
+        SELECT COUNT(0)
+        FROM GODDESS
+        WHERE MONTH = #{month}
+    </select>
 
 </mapper>

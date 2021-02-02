@@ -44,6 +44,13 @@ public interface GoddessService extends IService<GoddessDO> {
     GoddessDO queryById(Integer id);
 
     /**
+     * 根据月份查询记录是否存在
+     * @param month     月份
+     * @return          Integer
+     */
+    Integer queryByMonth(String month);
+
+    /**
      * 根据ID删除数据
      * @param id            主键
      * @param updatedBy     更新人

@@ -3,6 +3,7 @@ package com.benbird.bencenter.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.benbird.bencenter.common.BenBirdConstant;
 import com.benbird.bencenter.common.ParamValidate;
 import com.benbird.bencenter.mapper.GoddessMapper;
 import com.benbird.bencenter.models.DO.GoddessDO;
@@ -40,7 +41,7 @@ public class GoddessServiceImpl extends ServiceImpl<GoddessMapper , GoddessDO> i
         Page<GoddessDO> page = new Page<>(pageNo, pageSize);
         QueryWrapper<GoddessDO> query = BaseQuery.query();
         if(null != goddessDO && StringUtils.isNotEmpty(goddessDO.getMonth())){
-            query.eq("MONTH", goddessDO.getMemo());
+            query.eq("MONTH", goddessDO.getMonth());
         }
         Page<GoddessDO> list = goddessMapper.selectPage(page,query);
         log.info("人间烟火分页查询数据,请求信息{},{},响应信息{}",page,query,list.getRecords());
@@ -54,6 +55,7 @@ public class GoddessServiceImpl extends ServiceImpl<GoddessMapper , GoddessDO> i
      */
     @Override
     public Integer addGoddess(GoddessDO goddessDO) {
+        goddessDO.setUsableFlag(BenBirdConstant.USABLE);
         goddessDO.setCreatedAt(DateUtil.getCurrentDate());
         goddessDO.setCreatedBy(goddessDO.getUpdatedBy());
         int count = goddessMapper.insert(goddessDO);
@@ -84,6 +86,16 @@ public class GoddessServiceImpl extends ServiceImpl<GoddessMapper , GoddessDO> i
         log.info("人间烟火根据ID查询数据:{},{}",id,goddessDO);
         ParamValidate.validateUsable(goddessDO);
         return goddessDO;
+    }
+
+    /**
+     * 根据月份查询记录是否存在
+     * @param month     月份
+     * @return          Integer
+     */
+    @Override
+    public Integer queryByMonth(String month) {
+        return goddessMapper.queryByMonth(month);
     }
 
     /**

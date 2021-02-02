@@ -45,6 +45,7 @@ public enum BenbirdErrorCode {
     NOT_DELETE_LOGIN_USER("NOT_DELETE_LOGIN_USER","不能删除当前登录用户"),
     START_CANT_BEFORE_END_DATE("START_CANT_BEFORE_END_DATE","开始日期不能早于结束日期"),
     CANT_UPDATE_MONTH("CANT_UPDATE_MONTH","不允许修改月份"),
+    DATA_IS_ALREADY_EXISTS("DATA_IS_ALREADY_EXISTS","数据已存在"),
 
     ;
 
